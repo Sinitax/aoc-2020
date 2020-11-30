@@ -1,0 +1,36 @@
+#!/bin/bash
+
+function rmprefix() {
+    echo "${1:$(echo -n "$2" | wc -c)}"
+}
+
+SCRIPTPATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+REPOROOT=$(git -C "$SCRIPTPATH" rev-parse --show-toplevel)
+
+if [[ "${BASH_SOURCE[0]}" != "$0" ]]; then
+    if [ -z "$PS1_PREFIX" ]; then
+        echo "Enabling AoC env.."
+
+        export PS1_PREFIX="[🎄]:"
+        export PS1="$PS1_PREFIX$PS1"
+
+        export PATH_PREFIX="$REPOROOT:"
+        export PATH="$PATH_PREFIX$PATH"
+
+        export REPOROOT="$REPOROOT"
+    else
+        echo "Disabling AoC env.."
+
+        export PS1=$(rmprefix "$PS1" "$PS1_PREFIX")
+        export PS1_PREFIX=
+
+        export PATH=$(rmprefix "$PATH" "$PATH_PREFIX")
+        export PATH_PREFIX=
+
+        export REPOROOT=
+    fi
+else
+    [ $# -lt 1 ] && exit 0
+
+    "$REPOROOT/scripts/$1" ${@:2}
+fi

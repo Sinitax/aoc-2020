@@ -1,0 +1,40 @@
+#!/bin/bash
+
+if [ $# -ne 1 ]; then
+    echo "Usage: prepare <daynum>"
+    exit 1
+fi
+
+function load() {
+    echo -n "$1.."
+    $REPOROOT/scripts/scrape ${@:2}
+    rv=$?
+    [ $rv -eq 0 ] && echo "done" || echo "fail"
+    return $rv
+}
+
+set -e
+
+if [[ "$1" =~ "[0-9]+" ]]; then
+    echo "Not a number"
+    exit 1
+fi
+
+daynum="$1"
+folder="$REPOROOT/day$daynum"
+if [ -e "$folder" ]; then
+    echo "Directory for problem already exists"
+    exit 1
+fi
+
+echo "Initializing folder"
+
+mkdir $folder
+pushd $reporoot$folder &>/dev/null
+
+load "Loading problem input" $daynum input
+load "Loading first problem text"  $daynum text 1
+load "Loading second problem text" $daynum text 1
+
+popd &>/dev/null
+
