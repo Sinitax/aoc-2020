@@ -9,11 +9,13 @@ function load() {
     echo -n "$1.."
     $REPOROOT/scripts/scrape ${@:2}
     rv=$?
-    [ $rv -eq 0 ] && echo "done" || echo "fail"
+    if [ $rv -eq 0 ]; then
+        echo "done"
+    else
+        echo "fail"
+    fi
     return $rv
 }
-
-set -e
 
 if [[ "$1" =~ "[0-9]+" ]]; then
     echo "Not a number"

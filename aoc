@@ -11,6 +11,8 @@ if [[ "${BASH_SOURCE[0]}" != "$0" ]]; then
     if [ -z "$PS1_PREFIX" ]; then
         echo "Enabling AoC env.."
 
+        export AOCBIN="$REPOROOT/aoc"
+
         export PS1_PREFIX="[🎄]:"
         export PS1="$PS1_PREFIX$PS1"
 
@@ -27,6 +29,7 @@ if [[ "${BASH_SOURCE[0]}" != "$0" ]]; then
         export PATH=$(rmprefix "$PATH" "$PATH_PREFIX")
         export PATH_PREFIX=
 
+        export AOCBIN=
         export REPOROOT=
     fi
 else
