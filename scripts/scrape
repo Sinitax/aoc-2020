@@ -19,7 +19,7 @@ headers = json.loads(open(f"{reporoot}/data/headers").read())
 baseurl = f"https://adventofcode.com/{year}/day/{day}"
 
 def scrape_input(day):
-    path = f"{reporoot}/day{day}/input"
+    path = f"{reporoot}/src/day{day}/input"
     if os.path.exists(path):
         sys.exit(1)
 
@@ -54,7 +54,7 @@ def extract_hltext(elem):
     return text
 
 def scrape_text(day, part):
-    path = f"{reporoot}/day{day}/part{part}"
+    path = f"{reporoot}/src/day{day}/part{part}"
     if os.path.exists(path):
         sys.exit(1)
 

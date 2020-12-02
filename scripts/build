@@ -1,0 +1,6 @@
+#!/bin/bash
+
+[ -z "$REPOROOT" ] && exit 1
+
+[ ! -e "$REPOROOT/cache" ] && mkdir "$REPOROOT/cache"
+zig build-exe --cache-dir "$REPOROOT/cache" --pkg-begin "aoc" "$REPOROOT/lib/aoc.zig" --pkg-end main.zig
