@@ -64,12 +64,25 @@ def scrape_text(day, part):
     textobj = soup.select("article.day-desc")[part - 1]
 
     with open(path, "w+") as of:
-        of.write("{}\n".format(extract_hltext(textobj)))
+        text = extract_hltext(textobj)
+        parts = text.split("\n\n")
+        for i,p in enumerate(parts):
+            newp = [list(),]
+            words = p.split()
+            linelen = 0
+            for w in words:
+                if linelen + len(w) > 100:
+                    newp.append(list())
+                    linelen = 0
+                newp[-1].append(w)
+                linelen += len(w) + 1
+            parts[i] = "\n".join([" ".join(words) for words in newp])
+        of.write("{}\n".format("\n\n".join(parts)))
 
 def main():
     if cmd == "input":
         scrape_input(day)
-    elif cmd == "text":
+    elif cmd == "part":
         part = int(cmdargs[0]) if cmdargs else 1
         scrape_text(day, part)
     else:

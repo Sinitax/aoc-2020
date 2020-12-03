@@ -23,7 +23,7 @@ if [[ "$1" =~ "[0-9]+" ]]; then
 fi
 
 daynum="$1"
-folder="$REPOROOT/day$daynum"
+folder="$REPOROOT/src/day$daynum"
 if [ -e "$folder" ]; then
     echo "Directory for problem already exists"
     exit 1
@@ -31,12 +31,12 @@ fi
 
 echo "Initializing folder"
 
-mkdir $folder
-pushd $reporoot$folder &>/dev/null
+mkdir "$folder"
+
+echo "Copying template"
+
+cp "$REPOROOT/data/template.zig" "$folder/main.zig"
 
 load "Loading problem input" $daynum input
 load "Loading first problem text"  $daynum text 1
 load "Loading second problem text" $daynum text 1
-
-popd &>/dev/null
-
