@@ -4,7 +4,8 @@ const aoc = @import("aoc");
 const Parts = struct {
     a: u32, b: u32
 };
-fn findparts(intlist: std.ArrayList(u32), sum: u32) ?Parts {
+
+fn findparts(intlist: *const std.ArrayList(u32), sum: u32) ?Parts {
     var start: usize = 0;
     const items = intlist.items;
     var end: usize = items.len - 1;
@@ -39,7 +40,7 @@ fn part1(allocator: *std.mem.Allocator, input: []u8, args: [][]u8) !void {
 
     std.sort.sort(u32, intlist.items, {}, comptime std.sort.asc(u32));
 
-    if (findparts(intlist, 2020)) |parts| {
+    if (findparts(&intlist, 2020)) |parts| {
         std.debug.print("{}\n", .{parts.a * parts.b});
     }
 }
@@ -55,7 +56,7 @@ fn part2(allocator: *std.mem.Allocator, input: []u8, args: [][]u8) !void {
     while (third < intlist.items.len) : (third += 1) {
         const tmp = intlist.items[third];
         intlist.items[third] = target + 1;
-        if (findparts(intlist, target - tmp)) |parts| {
+        if (findparts(&intlist, target - tmp)) |parts| {
             std.debug.print("{}\n", .{parts.a * parts.b * tmp});
             return;
         }

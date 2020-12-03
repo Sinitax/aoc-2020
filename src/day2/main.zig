@@ -5,7 +5,7 @@ const Entry = struct {
     a: u16, b: u16, char: u8, pass: []u8
 };
 
-fn deinit_entries(allocator: *std.mem.Allocator, entries: std.ArrayList(Entry)) void {
+fn freeEntries(allocator: *std.mem.Allocator, entries: *const std.ArrayList(Entry)) void {
     for (entries.items) |item|
         allocator.free(item.pass);
     entries.deinit();
@@ -13,7 +13,7 @@ fn deinit_entries(allocator: *std.mem.Allocator, entries: std.ArrayList(Entry)) 
 
 fn parse(allocator: *std.mem.Allocator, input: []u8) !std.ArrayList(Entry) {
     var entries = std.ArrayList(Entry).init(allocator);
-    errdefer deinit_entries(allocator, entries);
+    errdefer freeEntries(allocator, &entries);
 
     var lineit = std.mem.tokenize(input, "\n");
     while (lineit.next()) |line| {
@@ -31,7 +31,7 @@ fn parse(allocator: *std.mem.Allocator, input: []u8) !std.ArrayList(Entry) {
 
 fn part1(allocator: *std.mem.Allocator, input: []u8, args: [][]u8) !void {
     const entries = try parse(allocator, input);
-    defer deinit_entries(allocator, entries);
+    defer freeEntries(allocator, &entries);
 
     var valid: u32 = 0;
     for (entries.items) |entry| {
@@ -44,7 +44,7 @@ fn part1(allocator: *std.mem.Allocator, input: []u8, args: [][]u8) !void {
 
 fn part2(allocator: *std.mem.Allocator, input: []u8, args: [][]u8) !void {
     const entries = try parse(allocator, input);
-    defer deinit_entries(allocator, entries);
+    defer freeEntries(allocator, &entries);
 
     var valid: u32 = 0;
     for (entries.items) |entry| {

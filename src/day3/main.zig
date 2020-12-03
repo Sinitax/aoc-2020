@@ -6,15 +6,16 @@ const Vector = struct {
     x: u16, y: u16
 };
 
-fn free_entries(allocator: *std.mem.Allocator, entries: std.ArrayList(Entry)) void {
-    for (entries.items) |entry|
+fn freeEntries(allocator: *std.mem.Allocator, entries: *const std.ArrayList(Entry)) void {
+    for (entries.items) |entry| {
         allocator.free(entry);
+    }
     entries.deinit();
 }
 
 fn parse(allocator: *std.mem.Allocator, input: []u8) !std.ArrayList(Entry) {
     var entries = std.ArrayList(Entry).init(allocator);
-    errdefer free_entries(allocator, entries);
+    errdefer freeEntries(allocator, &entries);
 
     var lineit = std.mem.tokenize(input, "\n");
     while (lineit.next()) |line| {
@@ -30,7 +31,7 @@ fn parse(allocator: *std.mem.Allocator, input: []u8) !std.ArrayList(Entry) {
     return entries;
 }
 
-fn trees_hit(map: std.ArrayList(Entry), slope: Vector) u16 {
+fn treesHit(map: std.ArrayList(Entry), slope: Vector) u16 {
     var count: u16 = 0;
     var pos = Vector{ .x = 0, .y = 0 };
     while (pos.y < map.items.len - 1) {
@@ -44,15 +45,15 @@ fn trees_hit(map: std.ArrayList(Entry), slope: Vector) u16 {
 
 fn part1(allocator: *std.mem.Allocator, input: []u8, args: [][]u8) !void {
     const map = try parse(allocator, input);
-    defer free_entries(allocator, map);
+    defer freeEntries(allocator, &map);
 
-    const answer = trees_hit(map, Vector{ .x = 3, .y = 1 });
+    const answer = treesHit(map, Vector{ .x = 3, .y = 1 });
     std.debug.print("{}\n", .{answer});
 }
 
 fn part2(allocator: *std.mem.Allocator, input: []u8, args: [][]u8) !void {
     const map = try parse(allocator, input);
-    defer free_entries(allocator, map);
+    defer freeEntries(allocator, &map);
 
     var answer: u32 = 1;
     const slopes = [_]Vector{
@@ -63,7 +64,7 @@ fn part2(allocator: *std.mem.Allocator, input: []u8, args: [][]u8) !void {
         Vector{ .x = 1, .y = 2 },
     };
     for (slopes) |slope| {
-        answer *= trees_hit(map, slope);
+        answer *= treesHit(map, slope);
     }
 
     std.debug.print("{}\n", .{answer});
