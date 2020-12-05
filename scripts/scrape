@@ -61,7 +61,10 @@ def scrape_text(day, part):
     r = requests.get(baseurl, headers = headers)
     soup = BeautifulSoup(r.text, "html.parser")
 
-    textobj = soup.select("article.day-desc")[part - 1]
+    try:
+        textobj = soup.select("article.day-desc")[part - 1]
+    except:
+        sys.exit(1)
 
     with open(path, "w+") as of:
         text = extract_hltext(textobj)

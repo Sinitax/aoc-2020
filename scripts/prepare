@@ -38,5 +38,5 @@ echo "Copying template"
 cp "$REPOROOT/data/template.zig" "$folder/main.zig"
 
 load "Loading problem input" $daynum input
-load "Loading first problem text"  $daynum text 1
-load "Loading second problem text" $daynum text 1
+load "Loading first problem text"  $daynum part 1
+load "Loading second problem text" $daynum part 2
