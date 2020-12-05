@@ -1,6 +1,8 @@
 const std = @import("std");
 pub const input = @import("input.zig");
 
+pub const Error = error{InvalidInput};
+
 const part_type = fn (alloc: *std.mem.Allocator, input: []u8, args: [][]u8) anyerror!void;
 pub fn gen_main(comptime part1: part_type, comptime part2: part_type) fn () anyerror!void {
     const impl = struct {
