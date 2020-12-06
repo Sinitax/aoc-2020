@@ -1,0 +1,35 @@
+--- Part Two ---
+
+As you finish the last group's customs declaration, you notice that you misread one word in the
+instructions:
+
+You don't need to identify the questions to which [1m[37manyone[0m answered "yes"; you need to
+identify the questions to which [1m[37meveryone[0m answered "yes"!
+
+Using the same example as above:
+
+abc
+
+a b c
+
+ab ac
+
+a a a a
+
+b
+
+This list represents answers from five groups:
+
+- In the first group, everyone (all 1 person) answered "yes" to [1m[37m3[0m questions: a, b, and
+c. - In the second group, there is [1m[37mno[0m question to which everyone answered "yes". - In
+the third group, everyone answered yes to only [1m[37m1[0m question, a. Since some people did not
+answer "yes" to b or c, they don't count. - In the fourth group, everyone answered yes to only
+[1m[37m1[0m question, a. - In the fifth group, everyone (all 1 person) answered "yes" to
+[1m[37m1[0m question, b.
+
+In this example, the sum of these counts is 3 + 0 + 1 + 1 + 1 = [1m[37m6[0m.
+
+For each group, count the number of questions to which [1m[37meveryone[0m answered "yes".
+[1m[37mWhat is the sum of those counts?[0m
+
+
