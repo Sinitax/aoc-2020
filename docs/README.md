@@ -1,5 +1,4 @@
-Advent Of Code 2020
-===================
+## Advent Of Code 2020
 
 Solutions to the annual [coding advent calendar](https://adventofcode.com) written in [Zig](https://ziglang.org/).
 
