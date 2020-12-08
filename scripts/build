@@ -3,4 +3,7 @@
 [ -z "$REPOROOT" ] && exit 1
 
 [ ! -e "$REPOROOT/cache" ] && mkdir "$REPOROOT/cache"
-zig build-exe --cache-dir "$REPOROOT/cache" --pkg-begin "aoc" "$REPOROOT/lib/aoc.zig" --pkg-end main.zig
+zig build-exe --cache-dir "$REPOROOT/cache" \
+    --pkg-begin "console8" "$REPOROOT/lib/console8.zig" --pkg-end \
+    --pkg-begin "aoc" "$REPOROOT/lib/aoc.zig" --pkg-end \
+    main.zig
