@@ -1,0 +1,21 @@
+--- Part Two ---
+
+The final step in breaking the XMAS encryption relies on the invalid number you just found: you must
+[1m[37mfind a contiguous set of at least two numbers[0m in your list which sum to the invalid
+number from step 1.
+
+Again consider the above example:
+
+35 20 [1m[37m15[0m [1m[37m25[0m [1m[37m47[0m [1m[37m40[0m 62 55 65 95 102 117 150 182
+127 219 299 277 309 576
+
+In this list, adding up all of the numbers from 15 through 40 produces the invalid number from step
+1, 127. (Of course, the contiguous set of numbers in your actual list might be much longer.)
+
+To find the [1m[37mencryption weakness[0m, add together the [1m[37msmallest[0m and
+[1m[37mlargest[0m number in this contiguous range; in this example, these are 15 and 47,
+producing [1m[37m62[0m.
+
+[1m[37mWhat is the encryption weakness in your XMAS-encrypted list of numbers?[0m
+
+
