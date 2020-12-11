@@ -18,8 +18,20 @@ pub fn gen_main(comptime part1: part_type, comptime part2: part_type) fn () anye
             if (args.len < 2) return;
             const part = try std.fmt.parseInt(u8, args[1], 10);
 
+            var filename: []const u8 = std.mem.spanZ("input");
+            for (std.os.environ) |v| {
+                const kv = std.mem.spanZ(v);
+                if (std.mem.indexOfScalar(u8, kv, '=')) |sep| {
+                    if (sep < kv.len - 1 and std.mem.eql(u8, kv[0..sep], "AOCINPUT")) {
+                        filename = kv[sep + 1 ..];
+                        std.debug.print("Using input file: {}\n", .{filename});
+                        break;
+                    }
+                }
+            }
+
             // read all input into mem (files are always small so no problem)
-            const file = try std.fs.cwd().openFile("input", .{});
+            const file = try std.fs.cwd().openFile(filename, .{});
             const text = try file.reader().readAllAlloc(heapalloc, std.math.maxInt(u32));
             defer heapalloc.free(text);
 

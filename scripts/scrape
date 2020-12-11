@@ -68,10 +68,12 @@ def scrape_text(day, part):
 
     with open(path, "w+") as of:
         text = extract_hltext(textobj)
-        parts = text.split("\n\n")
+        parts = text.split("\n")
         for i,p in enumerate(parts):
+            if p == "":
+                continue
             newp = [list(),]
-            words = p.split()
+            words = p.split(" ")
             linelen = 0
             for w in words:
                 if linelen + len(w) > 100:
@@ -80,7 +82,7 @@ def scrape_text(day, part):
                 newp[-1].append(w)
                 linelen += len(w) + 1
             parts[i] = "\n".join([" ".join(words) for words in newp])
-        of.write("{}\n".format("\n\n".join(parts)))
+        of.write("{}\n".format("\n".join(parts)))
 
 def main():
     if cmd == "input":
