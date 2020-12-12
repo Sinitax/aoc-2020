@@ -1,0 +1,57 @@
+--- Day 12: Rain Risk ---
+
+Your ferry made decent progress toward the island, but the storm came in faster than anyone
+expected. The ferry needs to take [1m[37mevasive actions[0m!
+
+Unfortunately, the ship's navigation computer seems to be malfunctioning; rather than giving a route
+directly to safety, it produced extremely circuitous instructions. When the captain uses the PA
+system to ask if anyone can help, you quickly volunteer.
+
+The navigation instructions (your puzzle input) consists of a sequence of single-character
+[1m[37mactions[0m paired with integer input [1m[37mvalues[0m. After staring at them for a few
+minutes, you work out what they probably mean:
+
+
+ - Action [1m[37mN[0m means to move [1m[37mnorth[0m by the given value.
+ - Action [1m[37mS[0m means to move [1m[37msouth[0m by the given value.
+ - Action [1m[37mE[0m means to move [1m[37meast[0m by the given value.
+ - Action [1m[37mW[0m means to move [1m[37mwest[0m by the given value.
+ - Action [1m[37mL[0m means to turn [1m[37mleft[0m the given number of degrees.
+ - Action [1m[37mR[0m means to turn [1m[37mright[0m the given number of degrees.
+ - Action [1m[37mF[0m means to move [1m[37mforward[0m by the given value in the direction the
+ship is currently facing.
+
+
+The ship starts by facing [1m[37meast[0m. Only the L and R actions change the direction the ship
+is facing. (That is, if the ship is facing east and the next instruction is N10, the ship would move
+north 10 units, but would still move east if the following action were F.)
+
+For example:
+
+F10
+N3
+F7
+R90
+F11
+
+These instructions would be handled as follows:
+
+
+ - F10 would move the ship 10 units east (because the ship starts by facing east) to [1m[37meast
+10, north 0[0m.
+ - N3 would move the ship 3 units north to [1m[37meast 10, north 3[0m.
+ - F7 would move the ship another 7 units east (because the ship is still facing east) to
+[1m[37meast 17, north 3[0m.
+ - R90 would cause the ship to turn right by 90 degrees and face [1m[37msouth[0m; it remains at
+[1m[37meast 17, north 3[0m.
+ - F11 would move the ship 11 units south to [1m[37meast 17, south 8[0m.
+
+
+At the end of these instructions, the ship's Manhattan distance (sum of the absolute values of its
+east/west position and its north/south position) from its starting position is 17 + 8 =
+[1m[37m25[0m.
+
+Figure out where the navigation instructions lead. [1m[37mWhat is the Manhattan distance between
+that location and the ship's starting position?[0m
+
+

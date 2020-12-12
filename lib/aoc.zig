@@ -45,3 +45,66 @@ pub fn gen_main(comptime part1: part_type, comptime part2: part_type) fn () anye
     };
     return impl.main;
 }
+
+pub const Pos = struct {
+    x: i64,
+    y: i64,
+    const Self = @This();
+
+    pub fn add(self: Self, other: Self) Self {
+        return Self{ .x = self.x + other.x, .y = self.y + other.y };
+    }
+
+    pub fn mult(self: Self, val: i64) Self {
+        return Self{ .x = self.x * val, .y = self.y * val };
+    }
+};
+
+pub const Dir = struct {
+    pub const East = Pos{ .x = 1, .y = 0 };
+    pub const West = Pos{ .x = -1, .y = 0 };
+    pub const South = Pos{ .x = 0, .y = -1 };
+    pub const North = Pos{ .x = 0, .y = 1 };
+
+    pub const Name = enum {
+        EAST = 0, WEST = 1, SOUTH = 2, NORTH = 3
+    };
+    pub const dirs = [_]Pos{ East, South, West, North };
+
+    pub fn get(name: Name) Pos {
+        return dirs[@enumToInt(name)];
+    }
+
+    pub fn nextCW(dir: usize, offset: usize) usize {
+        return (dir + @intCast(u32, offset)) % @intCast(u32, dirs.len);
+    }
+
+    pub fn nextCCW(dir: usize, offset: usize) usize {
+        const constrained = offset % dirs.len;
+        if (dir >= constrained) {
+            return dir - constrained;
+        } else {
+            return dirs.len - (constrained - dir);
+        }
+    }
+
+    const cos90vs = [_]i32{ 1, 0, -1, 0 };
+    const sin90vs = [_]i32{ 0, 1, 0, -1 };
+
+    pub fn rotCW(pos: Pos, offset: usize) Pos {
+        const constrained = (4 - offset % 4) % 4;
+        return Pos{
+            .x = cos90vs[constrained] * pos.x - sin90vs[constrained] * pos.y,
+            .y = sin90vs[constrained] * pos.x + cos90vs[constrained] * pos.y,
+        };
+    }
+
+    pub fn rotCCW(pos: Pos, offset: usize) Pos {
+        const constrained = offset % 4;
+        std.debug.print("{}\n", .{constrained});
+        return Pos{
+            .x = cos90vs[constrained] * pos.x - sin90vs[constrained] * pos.y,
+            .y = sin90vs[constrained] * pos.x + cos90vs[constrained] * pos.y,
+        };
+    }
+};

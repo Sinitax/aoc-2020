@@ -1,0 +1,49 @@
+--- Part Two ---
+
+Before you can give the destination to the captain, you realize that the actual action meanings were
+printed on the back of the instructions the whole time.
+
+Almost all of the actions indicate how to move a [1m[37mwaypoint[0m which is relative to the
+ship's position:
+
+
+ - Action [1m[37mN[0m means to move the waypoint [1m[37mnorth[0m by the given value.
+ - Action [1m[37mS[0m means to move the waypoint [1m[37msouth[0m by the given value.
+ - Action [1m[37mE[0m means to move the waypoint [1m[37meast[0m by the given value.
+ - Action [1m[37mW[0m means to move the waypoint [1m[37mwest[0m by the given value.
+ - Action [1m[37mL[0m means to rotate the waypoint around the ship [1m[37mleft[0m
+([1m[37mcounter-clockwise[0m) the given number of degrees.
+ - Action [1m[37mR[0m means to rotate the waypoint around the ship [1m[37mright[0m
+([1m[37mclockwise[0m) the given number of degrees.
+ - Action [1m[37mF[0m means to move [1m[37mforward[0m to the waypoint a number of times equal
+to the given value.
+
+
+The waypoint starts [1m[37m10 units east and 1 unit north[0m relative to the ship. The waypoint
+is relative to the ship; that is, if the ship moves, the waypoint moves with it.
+
+For example, using the same instructions as above:
+
+
+ - F10 moves the ship to the waypoint 10 times (a total of [1m[37m100 units east and 10 units
+north[0m), leaving the ship at [1m[37meast 100, north 10[0m. The waypoint stays 10 units east
+and 1 unit north of the ship.
+ - N3 moves the waypoint 3 units north to [1m[37m10 units east and 4 units north of the ship[0m.
+The ship remains at [1m[37meast 100, north 10[0m.
+ - F7 moves the ship to the waypoint 7 times (a total of [1m[37m70 units east and 28 units
+north[0m), leaving the ship at [1m[37meast 170, north 38[0m. The waypoint stays 10 units east
+and 4 units north of the ship.
+ - R90 rotates the waypoint around the ship clockwise 90 degrees, moving it to [1m[37m4 units east
+and 10 units south of the ship[0m. The ship remains at [1m[37meast 170, north 38[0m.
+ - F11 moves the ship to the waypoint 11 times (a total of [1m[37m44 units east and 110 units
+south[0m), leaving the ship at [1m[37meast 214, south 72[0m. The waypoint stays 4 units east and
+10 units south of the ship.
+
+
+After these operations, the ship's Manhattan distance from its starting position is 214 + 72 =
+[1m[37m286[0m.
+
+Figure out where the navigation instructions actually lead. [1m[37mWhat is the Manhattan distance
+between that location and the ship's starting position?[0m
+
+
