@@ -1,0 +1,79 @@
+--- Part Two ---
+
+The shuttle company is running a contest: one gold coin for anyone that can find the earliest
+timestamp such that the first bus ID departs at that time and each subsequent listed bus ID departs
+at that subsequent minute. (The first line in your input is no longer relevant.)
+
+For example, suppose you have the same list of bus IDs as above:
+
+7,13,x,x,59,x,31,19
+An x in the schedule means there are no constraints on what bus IDs must depart at that time.
+
+This means you are looking for the earliest timestamp (called t) such that:
+
+
+ - Bus ID 7 departs at timestamp t.
+ - Bus ID 13 departs one minute after timestamp t.
+ - There are no requirements or restrictions on departures at two or three minutes after timestamp
+t.
+ - Bus ID 59 departs four minutes after timestamp t.
+ - There are no requirements or restrictions on departures at five minutes after timestamp t.
+ - Bus ID 31 departs six minutes after timestamp t.
+ - Bus ID 19 departs seven minutes after timestamp t.
+
+
+The only bus departures that matter are the listed bus IDs at their specific offsets from t. Those
+bus IDs can depart at other times, and other bus IDs can depart at those times.  For example, in the
+list above, because bus ID 19 must depart seven minutes after the timestamp at which bus ID 7
+departs, bus ID 7 will always [1m[37malso[0m be departing with bus ID 19 at seven minutes after
+timestamp t.
+
+In this example, the earliest timestamp at which this occurs is [1m[37m1068781[0m:
+
+time     bus 7   bus 13  bus 59  bus 31  bus 19
+1068773    .       .       .       .       .
+1068774    D       .       .       .       .
+1068775    .       .       .       .       .
+1068776    .       .       .       .       .
+1068777    .       .       .       .       .
+1068778    .       .       .       .       .
+1068779    .       .       .       .       .
+1068780    .       .       .       .       .
+[1m[37m1068781[0m    [1m[37mD[0m       .       .       .       .
+[1m[37m1068782[0m    .       [1m[37mD[0m       .       .       .
+[1m[37m1068783[0m    .       .       .       .       .
+[1m[37m1068784[0m    .       .       .       .       .
+[1m[37m1068785[0m    .       .       [1m[37mD[0m       .       .
+[1m[37m1068786[0m    .       .       .       .       .
+[1m[37m1068787[0m    .       .       .       [1m[37mD[0m       .
+[1m[37m1068788[0m    D       .       .       .       [1m[37mD[0m
+1068789    .       .       .       .       .
+1068790    .       .       .       .       .
+1068791    .       .       .       .       .
+1068792    .       .       .       .       .
+1068793    .       .       .       .       .
+1068794    .       .       .       .       .
+1068795    D       D       .       .       .
+1068796    .       .       .       .       .
+1068797    .       .       .       .       .
+
+In the above example, bus ID 7 departs at timestamp 1068788 (seven minutes after t). This is fine;
+the only requirement on that minute is that bus ID 19 departs then, and it does.
+
+Here are some other examples:
+
+
+ - The earliest timestamp that matches the list 17,x,13,19 is [1m[37m3417[0m.
+ - 67,7,59,61 first occurs at timestamp [1m[37m754018[0m.
+ - 67,x,7,59,61 first occurs at timestamp [1m[37m779210[0m.
+ - 67,7,x,59,61 first occurs at timestamp [1m[37m1261476[0m.
+ - 1789,37,47,1889 first occurs at timestamp [1m[37m1202161486[0m.
+
+
+However, with so many bus IDs in your list, surely the actual earliest timestamp will be larger than
+100000000000000!
+
+[1m[37mWhat is the earliest timestamp such that all of the listed bus IDs depart at offsets
+matching their positions in the list?[0m
+
+

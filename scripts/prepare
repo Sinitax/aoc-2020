@@ -24,19 +24,11 @@ fi
 
 daynum="$1"
 folder="$REPOROOT/src/day$daynum"
-if [ -e "$folder" ]; then
-    echo "Directory for problem already exists"
-    exit 1
-fi
 
-echo "Initializing folder"
 
-mkdir "$folder"
+[ ! -e "$folder" ] && ( echo "Initializing folder"; mkdir "$folder" )
+[ ! -e "$folder/main.zig" ] && ( echo "Copying template"; cp "$REPOROOT/data/template.zig" "$folder/main.zig" )
 
-echo "Copying template"
-
-cp "$REPOROOT/data/template.zig" "$folder/main.zig"
-
-load "Loading problem input" $daynum input
-load "Loading first problem text"  $daynum part 1
-load "Loading second problem text" $daynum part 2
+[ ! -e "$folder/input" ] && load "Loading problem input" $daynum input
+[ ! -e "$folder/part1" ] && load "Loading first problem text"  $daynum part 1
+[ ! -e "$folder/part2" ] && load "Loading second problem text" $daynum part 2

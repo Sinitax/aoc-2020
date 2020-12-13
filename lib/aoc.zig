@@ -3,6 +3,8 @@ pub const input = @import("input.zig");
 
 pub const Error = error{InvalidInput};
 
+pub var debug = false;
+
 const part_type = fn (alloc: *std.mem.Allocator, input: []u8, args: [][]u8) anyerror!void;
 pub fn gen_main(comptime part1: part_type, comptime part2: part_type) fn () anyerror!void {
     const impl = struct {
@@ -22,10 +24,13 @@ pub fn gen_main(comptime part1: part_type, comptime part2: part_type) fn () anye
             for (std.os.environ) |v| {
                 const kv = std.mem.spanZ(v);
                 if (std.mem.indexOfScalar(u8, kv, '=')) |sep| {
-                    if (sep < kv.len - 1 and std.mem.eql(u8, kv[0..sep], "AOCINPUT")) {
+                    if (sep == kv.len - 1) continue;
+                    if (std.mem.eql(u8, kv[0..sep], "AOCINPUT")) {
                         filename = kv[sep + 1 ..];
                         std.debug.print("Using input file: {}\n", .{filename});
                         break;
+                    } else if (std.mem.eql(u8, kv[0..sep], "AOCDEBUG")) {
+                        debug = true;
                     }
                 }
             }
