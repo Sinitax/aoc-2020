@@ -1,0 +1,64 @@
+--- Day 15: Rambunctious Recitation ---
+
+You catch the airport shuttle and try to book a new flight to your vacation island. Due to the
+storm, all direct flights have been cancelled, but a route is available to get around the storm. You
+take it.
+
+While you wait for your flight, you decide to check in with the Elves back at the North Pole.
+They're playing a [1m[37mmemory game[0m and are ever so excited to explain the rules!
+
+In this game, the players take turns saying [1m[37mnumbers[0m. They begin by taking turns reading
+from a list of [1m[37mstarting numbers[0m (your puzzle input). Then, each turn consists of
+considering the [1m[37mmost recently spoken number[0m:
+
+
+ - If that was the [1m[37mfirst[0m time the number has been spoken, the current player says
+[1m[37m0[0m.
+ - Otherwise, the number had been spoken before; the current player announces [1m[37mhow many
+turns apart[0m the number is from when it was previously spoken.
+
+
+So, after the starting numbers, each turn results in that player speaking aloud either
+[1m[37m0[0m (if the last number is new) or an [1m[37mage[0m (if the last number is a repeat).
+
+For example, suppose the starting numbers are 0,3,6:
+
+
+ - [1m[37mTurn 1[0m: The 1st number spoken is a starting number, [1m[37m0[0m.
+ - [1m[37mTurn 2[0m: The 2nd number spoken is a starting number, [1m[37m3[0m.
+ - [1m[37mTurn 3[0m: The 3rd number spoken is a starting number, [1m[37m6[0m.
+ - [1m[37mTurn 4[0m: Now, consider the last number spoken, 6. Since that was the first time the
+number had been spoken, the 4th number spoken is [1m[37m0[0m.
+ - [1m[37mTurn 5[0m: Next, again consider the last number spoken, 0. Since it [1m[37mhad[0m
+been spoken before, the next number to speak is the difference between the turn number when it was
+last spoken (the previous turn, 4) and the turn number of the time it was most recently spoken
+before then (turn 1). Thus, the 5th number spoken is 4 - 1, [1m[37m3[0m.
+ - [1m[37mTurn 6[0m: The last number spoken, 3 had also been spoken before, most recently on
+turns 5 and 2. So, the 6th number spoken is 5 - 2, [1m[37m3[0m.
+ - [1m[37mTurn 7[0m: Since 3 was just spoken twice in a row, and the last two turns are 1 turn
+apart, the 7th number spoken is [1m[37m1[0m.
+ - [1m[37mTurn 8[0m: Since 1 is new, the 8th number spoken is [1m[37m0[0m.
+ - [1m[37mTurn 9[0m: 0 was last spoken on turns 8 and 4, so the 9th number spoken is the
+difference between them, [1m[37m4[0m.
+ - [1m[37mTurn 10[0m: 4 is new, so the 10th number spoken is [1m[37m0[0m.
+
+
+(The game ends when the Elves get sick of playing or dinner is ready, whichever comes first.)
+
+Their question for you is: what will be the [1m[37m2020th[0m number spoken? In the example above,
+the 2020th number spoken will be 436.
+
+Here are a few more examples:
+
+
+ - Given the starting numbers 1,3,2, the 2020th number spoken is 1.
+ - Given the starting numbers 2,1,3, the 2020th number spoken is 10.
+ - Given the starting numbers 1,2,3, the 2020th number spoken is 27.
+ - Given the starting numbers 2,3,1, the 2020th number spoken is 78.
+ - Given the starting numbers 3,2,1, the 2020th number spoken is 438.
+ - Given the starting numbers 3,1,2, the 2020th number spoken is 1836.
+
+
+Given your starting numbers, [1m[37mwhat will be the 2020th number spoken?[0m
+
+
