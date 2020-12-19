@@ -1,0 +1,50 @@
+--- Day 18: Operation Order ---
+
+As you look out the window and notice a heavily-forested continent slowly appear over the horizon,
+you are interrupted by the child sitting next to you. They're curious if you could help them with
+their math homework.
+
+Unfortunately, it seems like this "math" follows different rules than you remember.
+
+The homework (your puzzle input) consists of a series of expressions that consist of addition (+),
+multiplication (*), and parentheses ((...)). Just like normal math, parentheses indicate that the
+expression inside must be evaluated before it can be used by the surrounding expression. Addition
+still finds the sum of the numbers on both sides of the operator, and multiplication still finds the
+product.
+
+However, the rules of [1m[37moperator precedence[0m have changed. Rather than evaluating
+multiplication before addition, the operators have the [1m[37msame precedence[0m, and are
+evaluated left-to-right regardless of the order in which they appear.
+
+For example, the steps to evaluate the expression 1 + 2 * 3 + 4 * 5 + 6 are as follows:
+
+[1m[37m1 + 2[0m * 3 + 4 * 5 + 6
+  [1m[37m3   * 3[0m + 4 * 5 + 6
+      [1m[37m9   + 4[0m * 5 + 6
+         [1m[37m13   * 5[0m + 6
+             [1m[37m65   + 6[0m
+                 [1m[37m71[0m
+
+Parentheses can override this order; for example, here is what happens if parentheses are added to
+form 1 + (2 * 3) + (4 * (5 + 6)):
+
+1 + [1m[37m(2 * 3)[0m + (4 * (5 + 6))
+[1m[37m1 +    6[0m    + (4 * (5 + 6))
+     7      + (4 * [1m[37m(5 + 6)[0m)
+     7      + [1m[37m(4 *   11   )[0m
+     [1m[37m7      +     44[0m
+            [1m[37m51[0m
+
+Here are a few more examples:
+
+
+ - 2 * 3 + (4 * 5) becomes [1m[37m26[0m.
+ - 5 + (8 * 3 + 9 + 3 * 4 * 3) becomes [1m[37m437[0m.
+ - 5 * 9 * (7 * 3 * 3 + 9 * 3 + (8 + 6 * 4)) becomes [1m[37m12240[0m.
+ - ((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2 becomes [1m[37m13632[0m.
+
+
+Before you can help with the homework, you need to understand it yourself. [1m[37mEvaluate the
+expression on each line of the homework; what is the sum of the resulting values?[0m
+
+
