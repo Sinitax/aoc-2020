@@ -72,9 +72,9 @@ pub const Dir = struct {
     pub const North = Pos{ .x = 0, .y = 1 };
 
     pub const Name = enum {
-        EAST = 0, WEST = 1, SOUTH = 2, NORTH = 3
+        NORTH = 0, EAST = 1, SOUTH = 2, WEST = 3
     };
-    pub const dirs = [_]Pos{ East, South, West, North };
+    pub const dirs = [_]Pos{ North, East, South, West };
 
     pub fn get(name: Name) Pos {
         return dirs[@enumToInt(name)];
@@ -113,3 +113,8 @@ pub const Dir = struct {
         };
     }
 };
+
+pub fn assertV(v: anytype) !@TypeOf(v.?) {
+    if (v == null) return Error.InvalidInput;
+    return v.?;
+}
