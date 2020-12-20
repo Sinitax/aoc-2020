@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# year you are solving problems for
+export AOCYEAR=2020
+
+# directory you want day directories to be prepared in (format: src/dayN/..)
+export SRCDIR="src"
+
+# specify what files to copy to your day directory on prepare
+export TEMPLATE_DIR="data"
+export TEMPLATE_FILES="
+main.c:main.c
+makefile:makefile
+"
