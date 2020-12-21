@@ -1,0 +1,22 @@
+--- Part Two ---
+
+Now that you've isolated the inert ingredients, you should have enough information to figure out
+which ingredient contains which allergen.
+
+In the above example:
+
+
+ - mxmxvkd contains dairy.
+ - sqjhc contains fish.
+ - fvjkl contains soy.
+
+
+Arrange the ingredients [1m[37malphabetically by their allergen[0m and separate them by commas to
+produce your [1m[37mcanonical dangerous ingredient list[0m. (There should [1m[37mnot be any
+spaces[0m in your canonical dangerous ingredient list.) In the above example, this would be
+[1m[37mmxmxvkd,sqjhc,fvjkl[0m.
+
+Time to stock your raft with supplies. [1m[37mWhat is your canonical dangerous ingredient
+list?[0m
+
+

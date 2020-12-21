@@ -1,4 +1,4 @@
 #!/bin/bash
 
-[ ! -e "main" ] && aoc build
+[ ! -e "main" ] && $HELPER_ROOT/scripts/build
 $PWD/main $@

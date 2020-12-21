@@ -7,8 +7,7 @@ export AOCYEAR=2020
 export SRCDIR="src"
 
 # specify what files to copy to your day directory on prepare
-export TEMPLATE_DIR="data"
+export TEMPLATE_DIR="data/helper/template"
 export TEMPLATE_FILES="
-main.c:main.c
-makefile:makefile
+main.zig:main.zig
 "

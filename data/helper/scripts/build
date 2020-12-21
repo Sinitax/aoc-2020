@@ -1,9 +1,7 @@
 #!/bin/bash
 
-[ -z "$REPOROOT" ] && exit 1
-
-[ ! -e "$REPOROOT/cache" ] && mkdir "$REPOROOT/cache"
-zig build-exe --cache-dir "$REPOROOT/cache" \
-    --pkg-begin "console8" "$REPOROOT/lib/console8.zig" --pkg-end \
-    --pkg-begin "aoc" "$REPOROOT/lib/aoc.zig" --pkg-end \
+[ ! -e "$SOLUTIONS_ROOT/cache" ] && mkdir "$SOLUTIONS_ROOT/cache"
+zig build-exe --cache-dir "$SOLUTIONS_ROOT/cache" \
+    --pkg-begin "console8" "$SOLUTIONS_ROOT/lib/console8.zig" --pkg-end \
+    --pkg-begin "aoc" "$SOLUTIONS_ROOT/lib/aoc.zig" --pkg-end \
     main.zig
