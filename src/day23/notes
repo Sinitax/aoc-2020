@@ -1,0 +1,14 @@
+we start with a list of numbers 1 to 1mil
+
+10 million rounds of moving 3 items from one place to another (depending on input)
+
+need to know the product of two labels after cup 1
+
+- is the product itself predictable?
+    - No, its the same as a random product of two numbers between 1 and mil
+- can we optimize our algo for part 1?
+    - 1 million numbers (1MiB * 8) is not too bad, but 10 million rounds of ordered removes and inserts is very computationally intense.. could fix that with a linked list
+- can we reduce the search space?
+    - for cup 1 we need to know the two cups after it.. those cups were placed there either during a round
+      where 2 was the current or when 1 was the current and numbers between 1 and the ones next to it now were moved (not really predictable)
+

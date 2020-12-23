@@ -1,0 +1,27 @@
+--- Part Two ---
+
+Due to what you can only assume is a mistranslation (you're not exactly fluent in Crab), you are
+quite surprised when the crab starts arranging [1m[37mmany[0m cups in a circle on your raft -
+[1m[37mone million[0m (1000000) in total.
+
+Your labeling is still correct for the first few cups; after that, the remaining cups are just
+numbered in an increasing fashion starting from the number after the highest number in your list and
+proceeding one by one until one million is reached. (For example, if your labeling were 54321, the
+cups would be numbered 5, 4, 3, 2, 1, and then start counting up from 6 until one million is
+reached.) In this way, every number from one through one million is used exactly once.
+
+After discovering where you made the mistake in translating Crab Numbers, you realize the small crab
+isn't going to do merely 100 moves; the crab is going to do [1m[37mten million[0m (10000000)
+moves!
+
+The crab is going to hide your [1m[33mstars[0m - one each - under the [1m[37mtwo cups that will
+end up immediately clockwise of cup 1[0m. You can have them if you predict what the labels on those
+cups will be when the crab is finished.
+
+In the above example (389125467), this would be 934001 and then 159792; multiplying these together
+produces [1m[37m149245887792[0m.
+
+Determine which two cups will end up immediately clockwise of cup 1. [1m[37mWhat do you get if you
+multiply their labels together?[0m
+
+
