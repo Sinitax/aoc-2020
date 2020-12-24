@@ -1,137 +1,162 @@
 const std = @import("std");
 const aoc = @import("aoc");
 
-// totally overengineered..
-const Ring = struct {
-    list: std.ArrayList(u32),
-    indeces: std.ArrayList(*usize),
-
+// Links in this list are arranges in a circle
+const RingLink = struct {
+    data: u32,
+    next: *RingLink,
     const Self = @This();
 
-    fn init(allocator: *std.mem.Allocator) Self {
-        return Ring{
-            .list = std.ArrayList(u32).init(allocator),
-            .indeces = std.ArrayList(*usize).init(allocator),
-        };
+    pub fn insertNext(self: *Self, link: *RingLink) void {
+        link.next = self.next;
+        self.next = link;
     }
 
-    fn deinit(self: *Self) void {
-        self.list.deinit();
-        self.indeces.deinit();
+    pub fn popNext(self: *Self) !*Self {
+        const nlink = self.next;
+        if (nlink == self) return error.EmptyRingList;
+        self.next = nlink.next;
+        return nlink;
     }
 
-    fn size(self: *Self) usize {
-        return self.list.items.len;
-    }
-
-    fn track(self: *Self, p: *usize) !void {
-        try self.indeces.append(p);
-    }
-
-    fn untrack(self: *Self, p: *usize) void {
-        const ind = std.mem.indexOfScalar(*usize, self.indeces.items, p);
-        if (ind != null) _ = self.indeces.swapRemove(ind.?);
-    }
-
-    fn advanceIndex(self: *Self, ind: usize, off: i64) usize {
-        return (ind + @intCast(usize, @mod(off, @intCast(i64, self.list.items.len)) + @intCast(i64, self.list.items.len))) % self.list.items.len;
-    }
-
-    fn dist(self: *Self, a: usize, b: usize) usize { // a - b (wrapped)
-        return ((a % self.size()) + self.size() - (b % self.size())) % self.size();
-    }
-
-    fn removeAt(self: *Self, ind: usize) u32 {
-        for (self.indeces.items) |v, i| {
-            if (v.* > ind) v.* -= 1;
+    pub fn length(self: *Self) usize {
+        var count: usize = 1;
+        var link = self.next;
+        while (link != self) : (link = link.next) {
+            count += 1;
         }
-        return self.list.orderedRemove(ind);
+        return count;
     }
 
-    fn insertAt(self: *Self, ind: usize, item: u32) !void {
-        for (self.indeces.items) |v| {
-            if (v.* >= ind) v.* += 1;
+    pub fn advance(self: *Self, count: usize) *RingLink {
+        var link = self;
+        var counter: usize = 0;
+        while (counter < count) : (link = link.next) {
+            counter += 1;
         }
-        try self.list.insert(ind, item);
+        return link;
     }
 };
 
-fn parseInput(input: []u8, list: *std.ArrayList(u32)) !u32 {
+fn parseInput(input: []const u8, lookup: []RingLink, list: *?*RingLink) !u32 {
     var max: u32 = 0;
+    var link: *RingLink = undefined;
     for (input) |c, i| {
         if (c == '\n') break;
         const v = try std.fmt.parseInt(u32, input[i .. i + 1], 10);
         if (v > max) max = v;
-        try list.append(v);
+        if (list.* == null) {
+            list.* = &lookup[v];
+            link = list.*.?;
+            link.next = link;
+        } else {
+            link.insertNext(&lookup[v]);
+            link = link.next;
+        }
     }
     return max;
 }
 
+fn doRound(list: *RingLink, len: u32, lookup: []RingLink, current: **RingLink, max: u32, round: usize) !void {
+    if (aoc.debug) {
+        std.debug.print("\n-- move {} --\ncups:", .{round});
+
+        var start = current.*.advance(len - ((round - 1) % len));
+        var link = start;
+        while (true) {
+            if (link == current.*) {
+                std.debug.print(" ({})", .{link.data});
+            } else {
+                std.debug.print("  {} ", .{link.data});
+            }
+            link = link.next;
+            if (link == start) break;
+        }
+        std.debug.print("\n", .{});
+    }
+
+    var target = (current.*.data + max - 2) % max + 1;
+    var k: usize = 0;
+    var check = current.*.next;
+    while (k < 9) : (k += 1) {
+        if (check.data == target)
+            target = (target + max - 2) % max + 1;
+
+        check = if (k % 3 == 0) current.*.next else check.next;
+    }
+
+    var closest = &lookup[target];
+    var i: usize = 0;
+    while (i < 3) : (i += 1) {
+        const poplink = try current.*.popNext();
+        closest.insertNext(poplink);
+        closest = poplink;
+    }
+
+    current.* = current.*.next;
+}
+
+fn createLookup(allocator: *std.mem.Allocator, len: usize) ![]RingLink {
+    var lookup = try allocator.alloc(RingLink, len + 1);
+    errdefer allocator.free(lookup);
+
+    var i: usize = 1;
+    while (i <= len) : (i += 1) {
+        lookup[i] = RingLink{ .data = @intCast(u32, i), .next = undefined };
+    }
+
+    return lookup;
+}
+
 fn part1(allocator: *std.mem.Allocator, input: []u8, args: [][]u8) !void {
-    var ring = Ring.init(allocator);
-    defer ring.deinit();
+    var lookup = try createLookup(allocator, 9);
+    defer allocator.free(lookup);
 
-    var max = try parseInput(input, &ring.list);
+    var list: ?*RingLink = null;
+    const max = try parseInput(input, lookup, &list);
+    if (list == null) return aoc.Error.InvalidInput;
+    const real_len = @intCast(u32, list.?.length());
 
-    for (input) |c, i| {
-        if (c == '\n') break;
-        const v = try std.fmt.parseInt(u32, input[i .. i + 1], 10);
-        if (v > max) max = v;
-        try ring.list.append(v);
-    }
-
-    if (ring.size() < 5) return aoc.Error.InvalidInput;
-
-    var current: usize = 0;
-    try ring.track(&current);
-
-    var round: u32 = 0;
+    var round: usize = 0;
+    var current = list.?;
     while (round < 100) : (round += 1) {
-        var target = if (ring.list.items[current] == 0) max else ring.list.items[current] - 1;
-        var closest: usize = current;
-        for (ring.list.items) |v, i| {
-            if (ring.dist(target, v) < ring.dist(target, ring.list.items[closest]) and ring.dist(i, current) > 3) {
-                closest = i;
-            }
-        }
-
-        if (aoc.debug) {
-            std.debug.print("\n-- move {} --\ncups: ", .{round + 1});
-            for (ring.list.items) |v, i| {
-                if (i > 0) std.debug.print(" ", .{});
-                if (i == current) {
-                    std.debug.print("({})", .{v});
-                } else {
-                    std.debug.print(" {} ", .{v});
-                }
-            }
-            std.debug.print("\npick up: ", .{});
-        }
-
-        try ring.track(&closest);
-        var i: usize = 0;
-        while (i < 3) : (i += 1) {
-            if (aoc.debug) {
-                if (i > 0) std.debug.print(" ", .{});
-                std.debug.print("{}", .{ring.list.items[ring.advanceIndex(current, 1)]});
-            }
-            const v = ring.removeAt(ring.advanceIndex(current, 1));
-            try ring.insertAt(ring.advanceIndex(closest, @intCast(i64, 1 + i)), v);
-        }
-        ring.untrack(&closest);
-
-        if (aoc.debug) std.debug.print("\ndestination: {}\n", .{ring.list.items[closest]});
-        current = (current + 1) % ring.list.items.len;
+        try doRound(list.?, real_len, lookup, &current, max, round + 1);
     }
 
-    var start = std.mem.indexOfScalar(u32, ring.list.items, 1).?;
-    var i: u32 = 0;
-    while (i < ring.size() - 1) : (i += 1) {
-        std.debug.print("{}", .{ring.list.items[ring.advanceIndex(start, 1 + i)]});
+    var start = &lookup[1];
+    var link = start.next;
+    while (link != start) : (link = link.next) {
+        std.debug.print("{}", .{link.data});
     }
     std.debug.print("\n", .{});
 }
 
-fn part2(allocator: *std.mem.Allocator, input: []u8, args: [][]u8) !void {}
+fn part2(allocator: *std.mem.Allocator, input: []u8, args: [][]u8) !void {
+    var lookup = try createLookup(allocator, 1000000);
+    defer allocator.free(lookup);
+
+    var list: ?*RingLink = null;
+    const max = try parseInput(input, lookup, &list);
+    if (list == null) return aoc.Error.InvalidInput;
+    const real_len = list.?.length();
+
+    var end = list.?.advance(real_len - 1);
+    var i = real_len + 1;
+    while (i <= 1000000) : (i += 1) {
+        end.insertNext(&lookup[i]);
+        end = end.next;
+    }
+
+    var round: usize = 0;
+    var current = list.?;
+    while (round < 10000000) : (round += 1) {
+        if (round % 1000000 == 0) std.debug.print(".", .{});
+        try doRound(list.?, 1000000, lookup, &current, max, round + 1);
+    }
+    std.debug.print("\n", .{});
+
+    var link = (&lookup[1]).next;
+    std.debug.print("{} * {} = {}\n", .{ @intCast(u64, link.data), @intCast(u64, link.next.data), @intCast(u64, link.data) * @intCast(u64, link.next.data) });
+}
 
 pub const main = aoc.gen_main(part1, part2);
