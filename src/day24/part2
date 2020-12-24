@@ -1,0 +1,48 @@
+--- Part Two ---
+
+The tile floor in the lobby is meant to be a living art exhibit. Every day, the tiles are all
+flipped according to the following rules:
+
+
+ - Any [1m[37mblack[0m tile with [1m[37mzero[0m or [1m[37mmore than 2[0m black tiles
+immediately adjacent to it is flipped to [1m[37mwhite[0m.
+ - Any [1m[37mwhite[0m tile with [1m[37mexactly 2[0m black tiles immediately adjacent to it is
+flipped to [1m[37mblack[0m.
+
+
+Here, [1m[37mtiles immediately adjacent[0m means the six tiles directly touching the tile in
+question.
+
+The rules are applied [1m[37msimultaneously[0m to every tile; put another way, it is first
+determined which tiles need to be flipped, then they are all flipped at the same time.
+
+In the above example, the number of black tiles that are facing up after the given number of days
+has passed is as follows:
+
+Day 1: 15
+Day 2: 12
+Day 3: 25
+Day 4: 14
+Day 5: 23
+Day 6: 28
+Day 7: 41
+Day 8: 37
+Day 9: 49
+Day 10: 37
+
+Day 20: 132
+Day 30: 259
+Day 40: 406
+Day 50: 566
+Day 60: 788
+Day 70: 1106
+Day 80: 1373
+Day 90: 1844
+Day 100: 2208
+
+After executing this process a total of 100 times, there would be [1m[37m2208[0m black tiles
+facing up.
+
+[1m[37mHow many tiles will be black after 100 days?[0m
+
+
