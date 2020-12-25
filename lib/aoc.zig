@@ -4,6 +4,7 @@ pub const input = @import("input.zig");
 pub const Error = error{InvalidInput};
 
 pub var debug = false;
+pub var debuglvl: u32 = 0;
 
 const part_type = fn (alloc: *std.mem.Allocator, input: []u8, args: [][]u8) anyerror!void;
 pub fn gen_main(comptime part1: part_type, comptime part2: part_type) fn () anyerror!void {
@@ -31,6 +32,7 @@ pub fn gen_main(comptime part1: part_type, comptime part2: part_type) fn () anye
                         break;
                     } else if (std.mem.eql(u8, kv[0..sep], "AOCDEBUG")) {
                         debug = true;
+                        debuglvl = try std.fmt.parseInt(u32, kv[sep + 1 ..], 10);
                     }
                 }
             }

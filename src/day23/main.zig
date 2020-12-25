@@ -38,6 +38,15 @@ const RingLink = struct {
     }
 };
 
+fn printLinks(start: *RingLink, end: *RingLink, skipfirst: bool) void {
+    var link = start;
+    var b = skipfirst;
+    while (b or link != end) : (link = link.next) {
+        b = false;
+        std.debug.print("{} ", .{link.data});
+    }
+}
+
 fn parseInput(input: []const u8, lookup: []RingLink, list: *?*RingLink) !u32 {
     var max: u32 = 0;
     var link: *RingLink = undefined;
@@ -58,23 +67,6 @@ fn parseInput(input: []const u8, lookup: []RingLink, list: *?*RingLink) !u32 {
 }
 
 fn doRound(list: *RingLink, len: u32, lookup: []RingLink, current: **RingLink, max: u32, round: usize) !void {
-    if (aoc.debug) {
-        std.debug.print("\n-- move {} --\ncups:", .{round});
-
-        var start = current.*.advance(len - ((round - 1) % len));
-        var link = start;
-        while (true) {
-            if (link == current.*) {
-                std.debug.print(" ({})", .{link.data});
-            } else {
-                std.debug.print("  {} ", .{link.data});
-            }
-            link = link.next;
-            if (link == start) break;
-        }
-        std.debug.print("\n", .{});
-    }
-
     var target = (current.*.data + max - 2) % max + 1;
     var k: usize = 0;
     var check = current.*.next;
@@ -84,8 +76,34 @@ fn doRound(list: *RingLink, len: u32, lookup: []RingLink, current: **RingLink, m
 
         check = if (k % 3 == 0) current.*.next else check.next;
     }
-
     var closest = &lookup[target];
+
+    if (aoc.debug) {
+        std.debug.print("\n-- move {} --\ncups:", .{round});
+
+        if (aoc.debuglvl == 1) {
+            var start = current.*.advance(len - ((round - 1) % len));
+            var link = start;
+            while (true) {
+                if (link == current.*) {
+                    std.debug.print(" ({})", .{link.data});
+                } else {
+                    std.debug.print("  {} ", .{link.data});
+                }
+                link = link.next;
+                if (link == start) break;
+            }
+            std.debug.print("\n", .{});
+        } else {
+            std.debug.print("\n{} {} {}\n", .{ current.*.data, target, closest.data });
+            std.debug.print(".. ", .{});
+            printLinks(current.*, current.*.next.next.next.next, false);
+            std.debug.print("..\n.. ", .{});
+            printLinks(closest, closest.next.next.next.next, false);
+            std.debug.print("..\n", .{});
+        }
+    }
+
     var i: usize = 0;
     while (i < 3) : (i += 1) {
         const poplink = try current.*.popNext();
@@ -151,7 +169,7 @@ fn part2(allocator: *std.mem.Allocator, input: []u8, args: [][]u8) !void {
     var current = list.?;
     while (round < 10000000) : (round += 1) {
         if (round % 1000000 == 0) std.debug.print(".", .{});
-        try doRound(list.?, 1000000, lookup, &current, max, round + 1);
+        try doRound(list.?, 1000000, lookup, &current, 1000000, round + 1);
     }
     std.debug.print("\n", .{});
 
